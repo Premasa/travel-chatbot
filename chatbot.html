@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Travel Chatbot</title>
+  <style>
+    body { font-family: Arial; }
+    #chatbox {
+      width: 300px;
+      height: 400px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #f9f9f9;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+    }
+    #inputArea {
+      display: flex;
+      margin-top: 10px;
+    }
+    #userInput {
+      flex: 1;
+      padding: 5px;
+    }
+    button {
+      padding: 5px 10px;
+    }
+    .bot, .user {
+      margin: 5px 0;
+    }
+    .bot { color: blue; }
+    .user { color: green; text-align: right; }
+  </style>
+</head>
+<body>
+
+<div id="chatbox">
+  <div><strong>TravelBot:</strong> Hi! How can I help you today?</div>
+</div>
+<div id="inputArea">
+  <input type="text" id="userInput" placeholder="Ask something..." />
+  <button onclick="send()">Send</button>
+</div>
+
+<script>
+  function send() {
+    const input = document.getElementById("userInput");
+    const message = input.value.trim();
+    if (message === "") return;
+
+    addMessage("user", message);
+    const reply = getReply(message.toLowerCase());
+    setTimeout(() => addMessage("bot", reply), 500);
+    input.value = "";
+  }
+
+  function addMessage(sender, message) {
+    const chatbox = document.getElementById("chatbox");
+    const msgDiv = document.createElement("div");
+    msgDiv.className = sender;
+    msgDiv.innerHTML = `<strong>${sender === 'bot' ? 'TravelBot' : 'You'}:</strong> ${message}`;
+    chatbox.appendChild(msgDiv);
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }
+
+  function getReply(msg) {
+    if (msg.includes("ooty") || msg.includes("coimbatore"))
+      return "Yes! We offer Coimbatore to Ooty tour packages. Would you like details?";
+    if (msg.includes("book") || msg.includes("booking"))
+      return "You can book via our website's booking page or call us at +91-98765-43210.";
+    if (msg.includes("contact") || msg.includes("phone"))
+      return "You can reach us at +91-98436-69020 or email support@yourtravel.com.";
+    if (msg.includes("packages"))
+      return "We have packages for Ooty, Munnar, Kodaikanal, and more!";
+    if (msg.includes("hello") || msg.includes("hi"))
+      return "Hello! I'm your travel assistant.";
+    return "Sorry, I didn’t get that. Can you rephrase?";
+  }
+</script>
+
+</body>
+</html>
